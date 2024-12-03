@@ -1,10 +1,24 @@
 import * as fs from 'fs';
 
 var os = require('os');
-const input = splitByLine(fs.readFileSync('../Inputs/Day1.txt', 'utf-8'));
+const input = (fs.readFileSync('../Inputs/Day1.txt', 'utf-8'));
 //Run solution
-two_b(input);
 
+three_b(input);
+
+
+function three_a(input: string[]) {
+    const result = input.map((text) => {
+        return text.split(')')[0]
+    })
+        .filter((text) => text.match(/^\d+,\d+$/))
+        .map((text) => text.split(",").map(Number).reduce((a, b) => a * b)).reduce((a, b) => a + b)
+    console.log(result);
+}
+
+function three_b(input: string) {
+    three_a(splitByMul(lmaojustedittheinputyolo(input)));
+}
 
 function two_a(input: string[]): void {
     //Due to heavy reprimands from higher management (My partner) I am no longer allowed to use let, var and have to solve this using map.
@@ -29,7 +43,7 @@ function two_b(input: string[]): void {
             for (let j = 0; j < current[i].length; j++) {
                 const arr = current[i].filter((_, index) => index !== j);
                 console.log(arr);
-                if(isAscending(arr) && LowerThanFour(arr) || isDescending(arr) && LowerThanFour(arr)){
+                if (isAscending(arr) && LowerThanFour(arr) || isDescending(arr) && LowerThanFour(arr)) {
                     counter += 1;
                     break;
                 }
@@ -79,6 +93,15 @@ function one_b(lines: string[]): void {
 
 function splitByLine(input: string): string[] {
     return input.split(os.EOL);
+}
+
+function lmaojustedittheinputyolo(input: string) {
+    // @ts-ignore
+    return input.replace(/don't\(\).*?(do\(\)|$)/gs,"do()");
+}
+
+function splitByMul(input: string): string[] {
+    return input.split("mul(");
 }
 
 function LowerThanFour(input: any) {
