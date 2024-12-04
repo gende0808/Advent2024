@@ -1,11 +1,53 @@
 import * as fs from 'fs';
 
 var os = require('os');
-const input = (fs.readFileSync('../Inputs/Day1.txt', 'utf-8'));
+const input: string[][] = splitmulti(fs.readFileSync('../Inputs/Day1.txt', 'utf-8'));
 //Run solution
+four_b(input);
 
-three_b(input);
 
+function four_b(input: string[][]) {
+    let count = 0;
+    for (let i = 0; i < input.length; i++) {
+        for (let j = 0; j < input[i].length; j++) {
+            if (input[i][j] == "A") {
+                //add strings NW + NE + SE + SW
+                let possibilities = ["MSSM", "MMSS", "SMMS", "SSMM"];
+                count = possibilities.includes(input[i - 1][j - 1] + input[i - 1][j + 1] + input[i + 1][j + 1] + input[i + 1][j - 1]) ? count + 1 : count;
+
+            }
+        }
+    }
+    console.log(count);
+}
+
+function four_a(input: string[][]) {
+    let count = 0;
+    for (let i = 0; i < input.length; i++) {
+        for (let j = 0; j < input[i].length; j++) {
+            if (input[i][j] == "X") {
+                //north
+                count = input[i - 1][j] + input[i - 2][j] + input[i - 3][j] == "MAS" ? count + 1 : count;
+                //north-east
+                count = input[i - 1][j + 1] + input[i - 2][j + 2] + input[i - 3][j + 3] == "MAS" ? count + 1 : count;
+                //north-west
+                count = input[i - 1][j - 1] + input[i - 2][j - 2] + input[i - 3][j - 3] == "MAS" ? count + 1 : count;
+                //south-east
+                count = input[i + 1][j + 1] + input[i + 2][j + 2] + input[i + 3][j + 3] == "MAS" ? count + 1 : count;
+                //south
+                count = input[i + 1][j] + input[i + 2][j] + input[i + 3][j] == "MAS" ? count + 1 : count;
+                //south-west
+                count = input[i + 1][j - 1] + input[i + 2][j - 2] + input[i + 3][j - 3] == "MAS" ? count + 1 : count;
+                //west
+                count = input[i][j - 1] + input[i][j - 2] + input[i][j - 3] == "MAS" ? count + 1 : count;
+                //east
+                count = input[i][j + 1] + input[i][j + 2] + input[i][j + 3] == "MAS" ? count + 1 : count;
+
+            }
+        }
+    }
+    console.log(count);
+}
 
 function three_a(input: string[]) {
     const result = input.map((text) => {
@@ -95,9 +137,20 @@ function splitByLine(input: string): string[] {
     return input.split(os.EOL);
 }
 
+function splitmulti(input: string): string[][] {
+    //we have to edit this stupid thing to have corners of four dots on each end, so I can run my janky search function without errors
+    let tempval = input
+        .split(os.EOL)
+        .map(str => "...." + str + "....");
+    let periods = ".".repeat(tempval[0].length)
+    tempval.unshift(...Array(4).fill(periods));
+    tempval.push(...Array(4).fill(periods));
+    return tempval.map((line: string) => line.split(""));
+}
+
 function lmaojustedittheinputyolo(input: string) {
     // @ts-ignore
-    return input.replace(/don't\(\).*?(do\(\)|$)/gs,"do()");
+    return input.replace(/don't\(\).*?(do\(\)|$)/gs, "do()");
 }
 
 function splitByMul(input: string): string[] {
@@ -123,4 +176,8 @@ function isDescending(arr: any) {
     return arr
         .slice(1)
         .every((num: any, i: any) => num <= arr[i]);
+}
+
+function foursearcher() {
+
 }
