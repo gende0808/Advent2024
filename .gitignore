@@ -10,3 +10,4 @@ yarn-error.log*
 *.txt
 
 .vscode/*
+/Inputs/

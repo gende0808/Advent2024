@@ -1,11 +1,18 @@
 import * as fs from 'fs';
 
 var os = require('os');
-const input: string[][] = splitmulti(fs.readFileSync('../Inputs/Day1.txt', 'utf-8'));
+const input: string = fs.readFileSync('../Inputs/input.txt', 'utf-8');
 //Run solution
-four_b(input);
+five_a(input);
 
-
+function five_a(input: any) {
+    const instructions_raw: any = input.split(/\r?\n/);
+    const rules: any = instructions_raw.splice(0,instructions_raw.indexOf(''));
+    instructions_raw.splice(0,1);
+    const instructions = instructions_raw.map((str: string) => str.split(",").map(Number));
+    console.log(rules);
+    console.log(instructions);
+}
 function four_b(input: string[][]) {
     let count = 0;
     for (let i = 0; i < input.length; i++) {
@@ -95,7 +102,6 @@ function two_b(input: string[]): void {
     console.log(counter);
 }
 
-
 function one_a(lines: string[]): void {
     let list_one: number[] = [];
     let list_two: number[] = [];
@@ -176,8 +182,4 @@ function isDescending(arr: any) {
     return arr
         .slice(1)
         .every((num: any, i: any) => num <= arr[i]);
-}
-
-function foursearcher() {
-
 }
